@@ -1,0 +1,44 @@
+Fehu #16A0
+Uruz #16A2
+Thurisaz #16A6
+Ansuz #16A8
+Raido #16B1
+Kenaz #16B2
+Gebo #16B7
+Wunjo #16B9
+
+Hagalaz #16B
+Naudiz #16B
+Isa #16C1
+Jera #16C3
+Eihwaz #16C7
+Perthro #16C8
+Algiz #16C9
+Sowilo #16CA
+
+Tiwaz #16CF
+Berkano #16D2
+Eihwaz #16D6
+Mannaz #16D7
+Laguz #16DA
+Ingwaz #16DC
+Dagaz #16DE
+Othala #16DF
+
+Notes: Create resource of strings in runic values and import. Once these are defined, coding will go much faster, and text issues will be isolated. For example, the app title
+let runic_title =
+  "&#x16EC" +
+  "&#x16B1;" +
+  "&#x16A8;" +
+  "&#x16BE;" +
+  "&#x16DE;" +
+  "&#x16DF;" +
+  "&#x16D7;" +
+  " " +
+  "&#x16EB" +
+  " " +
+  "&#x16B1;" +
+  "&#x16A2;" +
+  "&#x16BE;" +
+  "&#x16CA;" +
+  "&#x16EC";
