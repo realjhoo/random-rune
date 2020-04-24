@@ -1,0 +1,54 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2&display=swap"); */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #200325;
+  color: #fff;
+  /* font-family: "Baloo Bhaina 2", cursive; */
+}
+
+#title {
+  text-align: center;
+  font-size: 8rem;
+}
+
+#instructions {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 2rem;
+}
+
+#runic-result {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: 8rem;
+}
+
+#begin-button-container {
+  text-align: center;
+}
+
+#begin-button {
+  /* font-family: "Baloo Bhaina 2", cursive; */
+  font-size: 1.5rem;
+  padding: 6px 48px 6px 48px;
+  border-radius: 4px;
+  background-color: green;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+}
+
+#begin-button:hover {
+  background-color: darkgreen;
+}
+
+#rune-data {
+  margin: 3rem 1rem;
+}
