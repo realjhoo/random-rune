@@ -1,0 +1,16 @@
+Random Rune App (Give Cute Name)
+
+Object (24 of these)
+	Runestave (using a rune font... is ISO included?)
+	Name
+	Sound
+	Meaning (Literal)
+	Meaning (Symbolic)
+	Message
+
+Fun Interface
+	-click-
+	~generate # 1 - 24~
+Display chosen rune
+	-click-
+Show remaining info
