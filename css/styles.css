@@ -7,11 +7,14 @@
 }
 
 body {
-  background-color: #200325;
+  background-color: rgb(32, 3, 37);
   color: #fff;
   /* font-family: "Baloo Bhaina 2", cursive; */
 }
 
+/* Particles */
+
+/* Random Rune */
 #title {
   text-align: center;
   font-size: 8rem;
