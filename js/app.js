@@ -41,8 +41,10 @@ function setup() {
   canvas.style("display", "flex");
   canvas.style("z-index", "-2");
 
+  // number of particles
   const particlesLength = Math.floor(window.innerWidth / 10);
 
+  // create the particles
   for (let i = 0; i < particlesLength; i++) {
     particles.push(new Particle());
   }
@@ -58,6 +60,7 @@ function draw() {
   });
 }
 
+// **************************
 class Particle {
   constructor() {
     // Position
@@ -69,12 +72,14 @@ class Particle {
   }
 
   // update movement by adding velocity
+  // **************************
   update() {
     this.pos.add(this.vel);
     this.edges();
   }
 
   // draw single particle
+  // **************************
   drawParticle() {
     noStroke();
     fill("rgba(255, 255,255, 0.5)");
@@ -82,6 +87,7 @@ class Particle {
   }
 
   // detect edges
+  // **************************
   edges() {
     if (this.pos.x < 0 || this.pos.x > width) {
       this.vel.x *= -1;
@@ -92,6 +98,7 @@ class Particle {
     }
   }
 
+  // **************************
   checkParticles(particles) {
     particles.forEach((particle) => {
       const d = dist(this.pos.x, this.pos.y, particle.pos.x, particle.pos.y);
@@ -102,7 +109,7 @@ class Particle {
       }
     });
   }
-}
+} // end Class Particle
 
 /* App Logic:
 
@@ -174,7 +181,7 @@ function init() {
   instructions.innerHTML = directions;
 
   let runic_result = document.getElementById("runic-result");
-  runic_result.innerHTML = dot + alu;
+  runic_result.innerHTML = " ";
 
   // set up button
   let beginButton = document.getElementById("begin-button");
@@ -232,8 +239,45 @@ function showRune() {
 }
 
 // ========================================================
-function buttonClick() {
+function aluPulseOut() {
+  let result = document.querySelector("#runic-result");
+  result.className = "invisible";
+}
+
+// ========================================================
+function aluPulseIn() {
+  let result = document.querySelector("#runic-result");
+  result.className = "visible";
+}
+
+// ========================================================
+async function pulse() {
+  const alu = ansuz + laguz + uruz + dot;
+  let runic_result = document.getElementById("runic-result");
+  runic_result.innerHTML = dot + alu;
+
+  aluPulseIn();
+
+  // pulse the alu 9 times
+  for (let i = 0; i < 9; i++) {
+    console.log(i + 1);
+    await sleep(2000);
+    aluPulseOut();
+    await sleep(2000);
+    aluPulseIn();
+  }
+
   showRune();
+}
+
+// ========================================================
+function buttonClick() {
+  pulse();
+}
+
+// ========================================================
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // ========================================================
