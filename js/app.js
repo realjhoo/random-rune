@@ -31,6 +31,78 @@ const four = "|||",
   five = "||" + "&#x0338" + "||";
 
 // *** Particles ***
+const particles = [];
+// let p;
+
+// ========================================================
+function setup() {
+  let canvas = createCanvas(window.innerWidth, window.innerHeight);
+  canvas.parent("canvas-container");
+  canvas.style("display", "flex");
+  canvas.style("z-index", "-2");
+
+  const particlesLength = Math.floor(window.innerWidth / 10);
+
+  for (let i = 0; i < particlesLength; i++) {
+    particles.push(new Particle());
+  }
+}
+
+// ========================================================
+function draw() {
+  background(32, 3, 37);
+  particles.forEach((p, index) => {
+    p.update();
+    p.drawParticle();
+    p.checkParticles(particles.slice(index));
+  });
+}
+
+class Particle {
+  constructor() {
+    // Position
+    this.pos = createVector(random(width), random(height));
+    // velocity
+    this.vel = createVector(random(-2, 2), random(-2, 2));
+    // size
+    this.size = 10;
+  }
+
+  // update movement by adding velocity
+  update() {
+    this.pos.add(this.vel);
+    this.edges();
+  }
+
+  // draw single particle
+  drawParticle() {
+    noStroke();
+    fill("rgba(255, 255,255, 0.5)");
+    circle(this.pos.x, this.pos.y, this.size);
+  }
+
+  // detect edges
+  edges() {
+    if (this.pos.x < 0 || this.pos.x > width) {
+      this.vel.x *= -1;
+    }
+
+    if (this.pos.y < 0 || this.pos.y > height) {
+      this.vel.y *= -1;
+    }
+  }
+
+  checkParticles(particles) {
+    particles.forEach((particle) => {
+      const d = dist(this.pos.x, this.pos.y, particle.pos.x, particle.pos.y);
+
+      if (d < 120) {
+        stroke("rgba(255,255,255,0.1)");
+        line(this.pos.x, this.pos.y, particle.pos.x, particle.pos.y);
+      }
+    });
+  }
+}
 
 /* App Logic:
 
