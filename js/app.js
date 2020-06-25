@@ -1,4 +1,4 @@
-// global define runes
+// global rune definitions
 const fehu = "&#x16A0;",
   uruz = "&#x16A2;",
   thurisaz = "&#x16A6;",
@@ -30,9 +30,8 @@ const fehu = "&#x16A0;",
 const four = "|||",
   five = "||" + "&#x0338" + "||";
 
-// *** Particles ***
+// * * * Particles * * *
 const particles = [];
-// let p;
 
 // ========================================================
 function setup() {
@@ -41,8 +40,8 @@ function setup() {
   canvas.style("display", "flex");
   canvas.style("z-index", "-2");
 
-  // number of particles
-  const particlesLength = Math.floor(window.innerWidth / 10);
+  // number of particles (higher divisor = fewer dots)
+  const particlesLength = Math.floor(window.innerWidth / 4);
 
   // create the particles
   for (let i = 0; i < particlesLength; i++) {
@@ -52,7 +51,9 @@ function setup() {
 
 // ========================================================
 function draw() {
+  // set bg color
   background(32, 3, 37);
+  // animate each particle
   particles.forEach((p, index) => {
     p.update();
     p.drawParticle();
@@ -60,18 +61,19 @@ function draw() {
   });
 }
 
+// create particle
 // **************************
 class Particle {
   constructor() {
     // Position
     this.pos = createVector(random(width), random(height));
     // velocity
-    this.vel = createVector(random(-2, 2), random(-2, 2));
+    this.vel = createVector(random(-0.4, 0.4), random(-0.4, 0.4));
     // size
-    this.size = 10;
+    this.size = 4;
   }
 
-  // update movement by adding velocity
+  // update particle position
   // **************************
   update() {
     this.pos.add(this.vel);
@@ -82,7 +84,7 @@ class Particle {
   // **************************
   drawParticle() {
     noStroke();
-    fill("rgba(255, 255,255, 0.5)");
+    fill("rgba(255, 255, 255, 0.6)");
     circle(this.pos.x, this.pos.y, this.size);
   }
 
@@ -98,36 +100,41 @@ class Particle {
     }
   }
 
+  // draws connecting fialment
   // **************************
   checkParticles(particles) {
     particles.forEach((particle) => {
       const d = dist(this.pos.x, this.pos.y, particle.pos.x, particle.pos.y);
 
       if (d < 120) {
-        stroke("rgba(255,255,255,0.1)");
+        stroke("rgba(255, 255, 255, 0.1)");
         line(this.pos.x, this.pos.y, particle.pos.x, particle.pos.y);
       }
     });
   }
-} // end Class Particle
+} // end Class
 
+// * * * APP LOGIC * * *
 /* App Logic:
 
  x On Load - show insructions and ALU
- Click button - ALU fades in and out 9 times (annoying, right?)
- Begin button is greyed during this? Or Cancel
- Random Rune is displayed
+x Click button - ALU fades in and out 9 times (annoying, right?)
+x Begin button is greyed during this? Or Cancel
+x Random Rune is displayed
  Begin button becomes Reset button
- Click on Rune itself revelas additional information (in Roman alphabet)
- Bottom of page has Hail Odin (runic)
- 
+x Click on Rune itself reveals additional information (in Roman alphabet)
+ Button becomes reset 
+ Bottom of page has Hail Odin (runic) 
+ Revise button text
+x What happens on resize???
 */
 
 // *** Random Rune ***
 // initialize the page
 // ========================================================
 function init() {
-  const runic_title =
+  // put the title together
+  const runicTitle =
     double_dot +
     raido +
     ansuz +
@@ -173,18 +180,18 @@ function init() {
     nine +
     times;
 
-  // place title abd directions in the DOM
-  let title = document.getElementById("title");
-  title.innerHTML = runic_title;
+  // place title and directions in the DOM
+  const title = document.getElementById("title");
+  title.innerHTML = runicTitle;
 
-  let instructions = document.getElementById("instructions");
+  const instructions = document.getElementById("instructions");
   instructions.innerHTML = directions;
 
-  let runic_result = document.getElementById("runic-result");
+  const runic_result = document.getElementById("runic-result");
   runic_result.innerHTML = " ";
 
   // set up button
-  let beginButton = document.getElementById("begin-button");
+  const beginButton = document.getElementById("begin-button");
   beginButton.addEventListener("click", buttonClick);
 }
 
@@ -223,7 +230,6 @@ function getRune(randomStave) {
 // ========================================================
 function randomRune() {
   // generate a random number between 0 and 23
-  // var max = randomMessages.length;
   let max = 23;
   let rndNum = Math.floor(Math.random() * max);
   return rndNum;
@@ -231,36 +237,77 @@ function randomRune() {
 
 // ========================================================
 function showRune() {
-  console.log(getRune(randomRune()));
-  let x = getRune(randomRune());
+  // store this number for showing rune cast
+  let rndRune = randomRune();
+  let runeStave = getRune(rndRune);
 
-  let runic_result = document.getElementById("runic-result");
-  runic_result.innerHTML = x;
+  const runicResult = document.getElementById("runic-result");
+  runicResult.innerHTML = runeStave;
+
+  runeStaveClick(rndRune);
+}
+
+// ========================================================
+function runeStaveClick(rndRune) {
+  runeCast = {
+    0: "Fehu: (Cattle) - Prosperity. Abundance. Success. Happiness. Luck",
+    1: "Uruz: (Aurochs) - Strength. Speed. Potential. Great energy and health. Wisdom. Masculinity. Sudden change for the better.",
+    2: "Thurisaz: (Thorn) - Protection. Conflict. Reactive force. Change. Loyalty. Cleansing fire.",
+    3: "Ansuz: (Odin) - ",
+    4: "Raido: (Chariot) - ",
+    5: "Kenaz: (Torch) - ",
+    6: "Gebo: (Gift) - ",
+    7: "Wunjo: (Joy) - ",
+    8: "Hagalaz: (Hail) - ",
+    9: "Naudiz: (Need) - ",
+    10: "Isa: (Ice) - ",
+    11: "Jera: (Harvest) - ",
+    12: "Eihwaz: (Yew Tree) - ",
+    13: "Perthro: (Dice Cup) - ",
+    14: "Algiz: (Elk) - ",
+    15: "Sowilo: (The Sun) - ",
+    16: "Tiwaz: (Tyr) - ",
+    17: "Berkano: (Birch) - ",
+    18: "Ehwaz: (Horse) - ",
+    19: "Mannaz: (Mankind) - ",
+    20: "Laguz: (Lake) - ",
+    21: "Ingwaz: (Ing) - ",
+    22: "Dagaz: (Day) - ",
+    23: "Othala: (Ancestral Property) - ",
+  };
+
+  const runeData = document.getElementById("rune-data");
+  runeData.innerHTML = runeCast[rndRune];
 }
 
 // ========================================================
 function aluPulseOut() {
-  let result = document.querySelector("#runic-result");
+  const result = document.querySelector("#runic-result");
   result.className = "invisible";
 }
 
 // ========================================================
 function aluPulseIn() {
-  let result = document.querySelector("#runic-result");
+  const result = document.querySelector("#runic-result");
   result.className = "visible";
 }
 
 // ========================================================
 async function pulse() {
-  const alu = ansuz + laguz + uruz + dot;
-  let runic_result = document.getElementById("runic-result");
-  runic_result.innerHTML = dot + alu;
+  const alu = ansuz + laguz + uruz;
+  const runic_result = document.getElementById("runic-result");
+  runic_result.innerHTML = dot + alu + dot;
 
+  // disable the button during process
+  const button = document.getElementById("begin-button");
+  button.disabled = true;
+
+  // show the alu
   aluPulseIn();
 
   // pulse the alu 9 times
   for (let i = 0; i < 9; i++) {
-    console.log(i + 1);
+    // console.log(i + 1);
     await sleep(2000);
     aluPulseOut();
     await sleep(2000);
@@ -268,6 +315,7 @@ async function pulse() {
   }
 
   showRune();
+  button.disabled = false;
 }
 
 // ========================================================

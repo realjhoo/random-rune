@@ -16,6 +16,18 @@ body {
   height: 100%;
 }
 
+@media (max-width: 415px) {
+  body {
+    min-width: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    min-width: 1024px;
+  }
+}
+
 /* Particles */
 #canvas-container {
   position: relative;
@@ -32,11 +44,45 @@ body {
   transform: translate(-50%);
 }
 
+@media (max-width: 415px) {
+  #title {
+    font-size: 3rem;
+    left: 50%;
+    width: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  #title {
+    font-size: 5rem;
+    width: 768px;
+  }
+}
+
 #instructions {
   position: absolute;
   text-align: center;
   font-size: 2rem;
   top: 10rem;
+  width: 100%;
+}
+
+@media (max-width: 415px) {
+  #instructions {
+    font-size: 1rem;
+    top: 5rem;
+    left: 50%;
+    width: 360px;
+    transform: translate(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  #instructions {
+    font-size: 2rem;
+    width: 768px;
+    top: 7rem;
+  }
 }
 
 #runic-result {
@@ -45,6 +91,21 @@ body {
   top: 20rem;
   left: 50%;
   transform: translate(-50%);
+}
+
+@media (max-width: 415px) {
+  #runic-result {
+    font-size: 4rem;
+    top: 8rem;
+    left: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  #runic-result {
+    font-size: 5rem;
+    top: 12rem;
+  }
 }
 
 @keyframes fadeIn {
@@ -90,10 +151,32 @@ body {
   top: 30rem;
   left: 50%;
   transform: translate(-50%);
+  opacity: 1;
+  transition: opacity 3s;
+}
+
+@media (max-width: 415px) {
+  #begin-button {
+    top: 13rem;
+    left: 50%;
+    opacity: 1;
+    transition: opacity 3s;
+  }
+}
+
+@media (max-width: 768px) {
+  #begin-button {
+    top: 18rem;
+  }
 }
 
 #begin-button:hover {
   background-color: darkgreen;
+}
+
+#begin-button:disabled {
+  opacity: 0.5;
+  transition: opacity 3s;
 }
 
 #rune-data {
@@ -102,4 +185,21 @@ body {
   font-size: 1.5rem;
   margin: 3rem 1rem;
   font-family: "Baloo Bhaina 2", cursive;
+}
+
+@media (max-width: 415px) {
+  #rune-data {
+    font-size: 0.9rem;
+    top: 15rem;
+    opacity: 1;
+    transition: opacity 3s;
+  }
+}
+
+@media (max-width: 768px) {
+  #rune-data {
+    font-size: 1.5rem;
+    width: 768px;
+    top: 20rem;
+  }
 }
