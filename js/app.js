@@ -1,4 +1,4 @@
-// global rune definitions
+// global rune entity definitions
 const fehu = "&#x16A0;",
   uruz = "&#x16A2;",
   thurisaz = "&#x16A6;",
@@ -65,11 +65,11 @@ function draw() {
 // **************************
 class Particle {
   constructor() {
-    // Position
+    // Starting position
     this.pos = createVector(random(width), random(height));
-    // velocity
+    // velocity and direction
     this.vel = createVector(random(-0.4, 0.4), random(-0.4, 0.4));
-    // size
+    // particle size
     this.size = 4;
   }
 
@@ -88,7 +88,7 @@ class Particle {
     circle(this.pos.x, this.pos.y, this.size);
   }
 
-  // detect edges
+  // detect edges and bounce particle
   // **************************
   edges() {
     if (this.pos.x < 0 || this.pos.x > width) {
@@ -100,7 +100,7 @@ class Particle {
     }
   }
 
-  // draws connecting fialment
+  // draw connecting fialment
   // **************************
   checkParticles(particles) {
     particles.forEach((particle) => {
@@ -114,26 +114,11 @@ class Particle {
   }
 } // end Class
 
-// * * * APP LOGIC * * *
-/* App Logic:
-
- x On Load - show insructions and ALU
-x Click button - ALU fades in and out 9 times (annoying, right?)
-x Begin button is greyed during this? Or Cancel
-x Random Rune is displayed
- Begin button becomes Reset button
-x Click on Rune itself reveals additional information (in Roman alphabet)
- Button becomes reset 
- Bottom of page has Hail Odin (runic) 
- Revise button text
-x What happens on resize???
-*/
-
-// *** Random Rune ***
+// * * * Random Rune Starts Here * * *
 // initialize the page
 // ========================================================
 function init() {
-  // put the title together
+  // put the title together in Futhark
   const runicTitle =
     double_dot +
     raido +
@@ -149,7 +134,7 @@ function init() {
     sowilo +
     double_dot;
 
-  // assemble words for easier use
+  // assemble words using Futhark for easier use
   const hold = double_dot + hagalaz + othala + laguz + dagaz + dot,
     your = jera + uruz + raido + dot,
     question =
@@ -165,7 +150,7 @@ function init() {
     // nine = naudiz + eihwaz + naudiz + dot,
     times = tiwaz + eihwaz + mannaz + ansuz + sowilo + double_dot;
 
-  // show directions in rune staves
+  // cat up the directions
   const directions =
     hold +
     your +
@@ -184,19 +169,94 @@ function init() {
   const title = document.getElementById("title");
   title.innerHTML = runicTitle;
 
+  // insert the directions in the DOM
   const instructions = document.getElementById("instructions");
   instructions.innerHTML = directions;
 
+  // place holder for result spot
   const runic_result = document.getElementById("runic-result");
   runic_result.innerHTML = " ";
 
-  // set up button
+  // set up the button event listener
   const beginButton = document.getElementById("begin-button");
   beginButton.addEventListener("click", buttonClick);
 }
 
 // ========================================================
+function buttonClick() {
+  pulse();
+}
+
+// ========================================================
+async function pulse() {
+  const alu = ansuz + laguz + uruz;
+  const runic_result = document.getElementById("runic-result");
+  runic_result.innerHTML = double_dot + alu + double_dot;
+
+  // disable the button during process
+  const button = document.getElementById("begin-button");
+  button.disabled = true;
+
+  // show the alu
+  aluPulseIn();
+
+  // pulse the alu 9 times
+  for (let i = 0; i < 9; i++) {
+    await sleep(2000);
+    aluPulseOut();
+    await sleep(2000);
+    aluPulseIn();
+  }
+
+  // show the rune and reenable the button
+  showRune();
+  button.disabled = false;
+}
+
+// ========================================================
+function aluPulseIn() {
+  // fade in
+  const result = document.querySelector("#runic-result");
+  result.className = "visible";
+}
+
+// ========================================================
+function aluPulseOut() {
+  // fade out
+  const result = document.querySelector("#runic-result");
+  result.className = "invisible";
+}
+
+// This is a great javascript sleep function!
+// call with await sleep(time); // with time in milliseconds
+// ========================================================
+function sleep(milliseconds) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+// ========================================================
+function showRune() {
+  // store random number for showing rune cast
+  let random = randomRune();
+  let runeStave = getRune(random);
+
+  const runicResult = document.getElementById("runic-result");
+  runicResult.innerHTML = runeStave;
+
+  showMessage(random);
+}
+
+// ========================================================
+function randomRune() {
+  // generate a random number between 0 and 23
+  let max = 23;
+  let randomNumber = Math.floor(Math.random() * max);
+  return randomNumber;
+}
+
+// ========================================================
 function getRune(randomStave) {
+  // associate the runes with their numbers
   rune = {
     0: fehu,
     1: uruz,
@@ -228,104 +288,37 @@ function getRune(randomStave) {
 }
 
 // ========================================================
-function randomRune() {
-  // generate a random number between 0 and 23
-  let max = 23;
-  let rndNum = Math.floor(Math.random() * max);
-  return rndNum;
-}
-
-// ========================================================
-function showRune() {
-  // store this number for showing rune cast
-  let rndRune = randomRune();
-  let runeStave = getRune(rndRune);
-
-  const runicResult = document.getElementById("runic-result");
-  runicResult.innerHTML = runeStave;
-
-  runeStaveClick(rndRune);
-}
-
-// ========================================================
-function runeStaveClick(rndRune) {
+function showMessage(rndRune) {
+  // the text for the associated message
   runeCast = {
-    0: "Fehu: (Cattle) - Prosperity. Abundance. Success. Happiness. Luck",
-    1: "Uruz: (Aurochs) - Strength. Speed. Potential. Great energy and health. Wisdom. Masculinity. Sudden change for the better.",
-    2: "Thurisaz: (Thorn) - Protection. Conflict. Reactive force. Change. Loyalty. Cleansing fire.",
-    3: "Ansuz: (Odin) - ",
-    4: "Raido: (Chariot) - ",
-    5: "Kenaz: (Torch) - ",
-    6: "Gebo: (Gift) - ",
-    7: "Wunjo: (Joy) - ",
-    8: "Hagalaz: (Hail) - ",
-    9: "Naudiz: (Need) - ",
-    10: "Isa: (Ice) - ",
-    11: "Jera: (Harvest) - ",
-    12: "Eihwaz: (Yew Tree) - ",
-    13: "Perthro: (Dice Cup) - ",
-    14: "Algiz: (Elk) - ",
-    15: "Sowilo: (The Sun) - ",
-    16: "Tiwaz: (Tyr) - ",
-    17: "Berkano: (Birch) - ",
-    18: "Ehwaz: (Horse) - ",
-    19: "Mannaz: (Mankind) - ",
-    20: "Laguz: (Lake) - ",
-    21: "Ingwaz: (Ing) - ",
-    22: "Dagaz: (Day) - ",
-    23: "Othala: (Ancestral Property) - ",
+    0: "Fehu: |F| (Domestic cattle, wealth) Wealth. Possessions won or earned, earned income. Luck. Abundance, financial strength in the present or near future. Hope and plenty, success and happiness. Social success.",
+    1: "Uruz: |U| (Aurochs; European wild ox) Physical strength and speed, untamed potential. A time of great energy and health. Freedom, action, courage, strength, tenacity, understanding, wisdom. Sudden or unexpected changes (usually for the better).",
+    2: "Thurisaz: |Unvoiced TH| (Thorn, thurses) Protection. Reactive force of destruction and defense. Instinctual will, regenerative catalyst. A tendency toward change. Catharsis, purging, cleansing fire. Male sexuality. Mjollinir.",
+    3: "Ansuz: |Short A| (Os, i.e. Odin) A revealing message or insight, dreams, teaching. Communication. Signals, inspiration, enthusiasm, speech, true vision, power of words and naming. Blessings. Taking of advice. Sacred 3.",
+    4: "Raido: |R| (Wagon or chariot) A journey, both real and metaphorical. A change of place or setting. Seeing a larger perspective. The journey, the road and the vehicle.",
+    5: "Kenaz: |K| (Torch) Vision, revelation, knowledge, creativity, inspiration, technical ability. Fire of life, transformation and regeneration. Power to create reality Passion.",
+    6: "Gebo: |Hard G| (Gift) Giving and recieving gifts. Balance. A new or strengthened friendship. Reciprocity.",
+    7: "Wunjo: |W or V| (Joy) Joy, comfort, pleasure. Fellowship, harmony, prosperity, spiritual reward, recognition of worth.",
+    8: "Hagalaz: |H| (Hailstone) Transformation. Wrath of nature, destructive, uncontrolled forces, possibly the weather or in the mind. Tempering, testing, trial. Controlled crisis. Be cautious and wait for the hailstones to return to water. Sacred 9.",
+    9: "Naudiz: |N| (Need) Delays, restriction, powerlessness. Sacred need-fire (self-reliance). Resistance leading to strength, innovation. Distress, confusion, conflict, and the power of will to overcome. Endurance, survival, determination. A time to exercise patience. Major self-initiated change. Facing your fears.",
+    10: "Isa: |Long E| (Ice) Standstill, stasis, constraint. Slow progress. Blockage. Frozen. A time to wait. A challenge or frustration. Psychological blocks to thought or activity. This rune reinforces runes around it.",
+    11: "Jera: |Y or soft G| (Year, good harvest.) The results of earlier efforts are realized. A time of peace and happiness, fruitful season. The promise of success earned. Cycle of life, cyclical pattern. Change in its own time.",
+    12: "Eihwaz: |Long I| (Yew tree) Strength, reliability, dependability, trustworthiness. Enlightenment, endurance. Defense, protection. Strong and flexible. Achievable goals. An honest man who can be relied upon",
+    13: "Perthro: |P| (Dice cup, vagina) A secret matter, a mystery, hidden things. Initiation, knowledge of one's destiny, knowledge of future matters, determining the future or your path. Luck. Feminine mysteries. Evolutionary change.",
+    14: "Algiz: |Z| (Elk) Powerful protection, a shield. The protective urge to shelter oneself or others. Defense, warding off of evil, shield, guardian. Connection with the gods, awakening, higher life. It can be used to channel energies appropriately. Follow your instincts. Keep hold of success or maintain a position won or earned. ",
+    15: "Sowilo: |S| (Sun) Success, goals achieved, honor. The life-force, health. A time of positive change. Victory of light over darkness. Health and success. Purifying light.",
+    16: "Tiwaz: |T| (Tyr) Honor, justice, leadership and authority. Analysis, rationality. Knowing your own strength. Self-sacrifice. Victory and success in competition. Justice in legal matters.",
+    17: "Berkano: |B| (Berchta, the birch-goddess) Birth, fertility, mental and physical personal growth. Liberation. Spring, renewal, new beginnings, new growth. Arousal of desire. A love affair or new birth. The prospering of an enterprise or venture. The desir.",
+    18: "Ehwaz: |Short E| (Horse) Transportation. Any form of transportation such as a horse, car, plane, boat or other vehicle. Gradual development and steady progress are indicated. Strength, teamwork, trust, loyalty. (18th rune; sacred double 9).",
+    19: "Mannaz: |M|  (Mankind, Mani, the moon-god) The self, the individual or the human race. Your attitude toward others and their attitudes towards you. Friends and enemies, social order. Intelligence, forethought, creativity, skill, ability. Measure your time. Time is cyclical.",
+    20: "Laguz: |L| (Lake or leek) Water, sea, fertility, healing power. Life energy, organic growth. Imagination. Dreams, fantasies, mysteries, the unknown, the hidden, the deep, the underworld. Success in travel or acquisition, but with the possibility of loss.",
+    21: "Ingwaz: |NG| (Ingui Frey, Lord Ing) Male fertility, gestation, internal growth. Common virtues, common sense, simple strengths, family love, caring, human warmth, the home. Rest, a time of relief, of no anxiety. A time when all loose strings are tied and you are free to move in a new direction. Trust your intuition.",
+    22: "Dagaz: |D or voiced TH| (Day) Breakthrough, enlightenment, awakening, awareness. Clarity of daylight. A time to plan or embark. The power of change and transformation. Hope, happiness, security and certainty. Growth and release.",
+    23: "Othala: |Long O| (Ancestral property.) Inherited property or possessions or home. What is truly important. Family prosperity. Land of birth and heritage (spiritual and physical). Increasing abundance.",
   };
 
   const runeData = document.getElementById("rune-data");
   runeData.innerHTML = runeCast[rndRune];
-}
-
-// ========================================================
-function aluPulseOut() {
-  const result = document.querySelector("#runic-result");
-  result.className = "invisible";
-}
-
-// ========================================================
-function aluPulseIn() {
-  const result = document.querySelector("#runic-result");
-  result.className = "visible";
-}
-
-// ========================================================
-async function pulse() {
-  const alu = ansuz + laguz + uruz;
-  const runic_result = document.getElementById("runic-result");
-  runic_result.innerHTML = dot + alu + dot;
-
-  // disable the button during process
-  const button = document.getElementById("begin-button");
-  button.disabled = true;
-
-  // show the alu
-  aluPulseIn();
-
-  // pulse the alu 9 times
-  for (let i = 0; i < 9; i++) {
-    // console.log(i + 1);
-    await sleep(2000);
-    aluPulseOut();
-    await sleep(2000);
-    aluPulseIn();
-  }
-
-  showRune();
-  button.disabled = false;
-}
-
-// ========================================================
-function buttonClick() {
-  pulse();
-}
-
-// ========================================================
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // ========================================================

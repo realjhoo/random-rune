@@ -24,35 +24,3 @@ Laguz #16DA
 Ingwaz #16DC
 Dagaz #16DE
 Othala #16DF
-
-Notes: Create resource of strings in runic values and import. Once these are defined, coding will go much faster, and text issues will be isolated. For example, the app title
-let runic_title =
-  "&#x16EC" +
-  "&#x16B1;" +
-  "&#x16A8;" +
-  "&#x16BE;" +
-  "&#x16DE;" +
-  "&#x16DF;" +
-  "&#x16D7;" +
-  " " +
-  "&#x16EB" +
-  " " +
-  "&#x16B1;" +
-  "&#x16A2;" +
-  "&#x16BE;" +
-  "&#x16CA;" +
-  "&#x16EC";
-
-NOTE: Click begin.
-Button flashes ALU 9 times, in a cool way
-Rune appears
-
-Snips
-<p>&#x16A0; Fehu</p>
-    <p>&#x16A2; Uruz</p>
-    <p>&#x16A6; Thurisaz</p>
-    <p>&#x16A8; Ansuz</p>
-    <p>&#x16B1; Raido</p>
-    <p>&#x16B2; Kenanz</p>
-    <p>&#x16B7; Gebo</p>
-    <p>&#x16B9; Wunjo</p>
