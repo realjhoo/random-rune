@@ -7,6 +7,7 @@
 }
 
 body {
+  /* font-family: "Baloo Bhai 2", sans-serif; */
   background-color: rgb(32, 3, 37);
   color: #fff;
   overflow: hidden;
@@ -35,6 +36,7 @@ body {
 
 /* Random Rune */
 #title {
+  /* font-family: "Baloo Bhai 2"; */
   position: absolute;
   text-align: center;
   font-size: 8rem;
@@ -60,6 +62,7 @@ body {
 }
 
 #instructions {
+  /* font-family: "Baloo Bhai 2", sans-serif; */
   position: absolute;
   text-align: center;
   font-size: 2rem;
@@ -120,7 +123,7 @@ body {
 
 #begin-button {
   position: absolute;
-  font-family: "Baloo Bhai 2", sans-serif;
+  /* font-family: "Baloo Bhai 2", sans-serif; */
   font-weight: 100;
   font-size: 1.5rem;
   line-height: 1.8rem;
@@ -166,7 +169,7 @@ body {
   top: 32rem;
   font-size: 1.5rem;
   margin: 3rem 1rem;
-  font-family: "Baloo Bhai 2", sans-serif;
+  /* font-family: "Baloo Bhai 2", sans-serif; */
 }
 
 @media (max-width: 415px) {
